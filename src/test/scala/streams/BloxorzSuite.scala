@@ -62,6 +62,40 @@ class BloxorzSuite extends FunSuite {
     }
   }
 
+  test("Block") {
+    new Level1 {
+
+      assert(Block(Pos(1,2), Pos(1,2)).isStanding, "is standing")
+      assert(!Block(Pos(1,2), Pos(2,2)).isStanding, "not standing")
+
+      assert(Block(Pos(0,0), Pos(0,1)).isLegal, "is legal Pos(0,0), Pos(0,1)")
+      assert(!Block(Pos(0,2), Pos(0,3)).isLegal, "not legal Pos(0,2), Pos(0,3)")
+
+      val b = Block(Pos(0,0), Pos(0,0))
+      val neigh = List(
+        (Block(Pos(0, -2), Pos(0, -1)), Left),
+        (Block(Pos(0, 1), Pos(0, 2)), Right),
+        (Block(Pos(-2, 0), Pos(-1, 0)), Up),
+        (Block(Pos(1, 0), Pos(2, 0)), Down)
+      )
+      val legalNeigh = List(
+        (Block(Pos(0, 1), Pos(0, 2)), Right),
+        (Block(Pos(1, 0), Pos(2, 0)), Down)
+      )
+      assert(b.neighbors === neigh, "neighbors")
+      assert(b.legalNeighbors === legalNeigh, "legal neighbors")
+    }
+  }
+
+
+  test("done") {
+    new Level1 {
+
+      assert(done(Block(Pos(4, 7), Pos(4, 7))), "done")
+      assert(!done(Block(Pos(4, 7), Pos(5, 7))), "not done because laying")
+      assert(!done(Block(Pos(5, 7), Pos(5, 7))), "not done standing on another Pos")
+    }
+  }
 
 	test("optimal solution for level 1") {
     new Level1 {

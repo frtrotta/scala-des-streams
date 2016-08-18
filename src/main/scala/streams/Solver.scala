@@ -10,7 +10,9 @@ trait Solver extends GameDef {
   /**
    * Returns `true` if the block `b` is at the final position
    */
-  def done(b: Block): Boolean = ???
+  def done(b: Block): Boolean = b match {
+    case Block(p, _) => b.isStanding && (p == goal)
+  }
 
   /**
    * This function takes two arguments: the current block `b` and
@@ -28,7 +30,16 @@ trait Solver extends GameDef {
    * It should only return valid neighbors, i.e. block positions
    * that are inside the terrain.
    */
-  def neighborsWithHistory(b: Block, history: List[Move]): Stream[(Block, List[Move])] = ???
+  def neighborsWithHistory(b: Block, history: List[Move]): Stream[(Block, List[Move])] =
+  {
+    def neighborsWithHistoryHelper(ns: => List[(Block, Move)]): Stream[(Block, List[Move])] =
+      if (ns.isEmpty) Stream.empty
+      else {
+        val (n, m) = ns.head
+        (n, m :: history) #:: neighborsWithHistoryHelper(ns.tail)
+      }
+    neighborsWithHistoryHelper(b.legalNeighbors)
+  }
 
   /**
    * This function returns the list of neighbors without the block
