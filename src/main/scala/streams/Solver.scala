@@ -32,13 +32,7 @@ trait Solver extends GameDef {
    */
   def neighborsWithHistory(b: Block, history: List[Move]): Stream[(Block, List[Move])] =
   {
-    def neighborsWithHistoryHelper(ns: => List[(Block, Move)]): Stream[(Block, List[Move])] =
-      if (ns.isEmpty) Stream.empty
-      else {
-        val (n, m) = ns.head
-        (n, m :: history) #:: neighborsWithHistoryHelper(ns.tail)
-      }
-    neighborsWithHistoryHelper(b.legalNeighbors)
+    b.neighbors.toStream map { case (neighbor, move) => (neighbor, move :: history)}
   }
 
   /**
