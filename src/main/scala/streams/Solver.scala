@@ -32,7 +32,7 @@ trait Solver extends GameDef {
    */
   def neighborsWithHistory(b: Block, history: List[Move]): Stream[(Block, List[Move])] =
   {
-    b.neighbors.toStream map { case (neighbor, move) => (neighbor, move :: history)}
+    b.legalNeighbors.toStream map { case (neighbor, move) => (neighbor, move :: history)}
   }
 
   /**
@@ -75,11 +75,16 @@ trait Solver extends GameDef {
     */
   if (initial.isEmpty)
     Stream.empty
-  else
-    for {
+  else {
+    def newPaths = for {
       (b, bHistory) <- initial
       (n, nHistory) <- newNeighborsOnly(neighborsWithHistory(b, bHistory), explored)
     } yield (n, nHistory)
+    val newExplored = for {
+      (b, _) <- newPaths
+    } yield b
+    initial #::: from(newPaths, explored union newExplored.toSet)
+  }
 
   /**
    * The stream of all paths that begin at the starting block.

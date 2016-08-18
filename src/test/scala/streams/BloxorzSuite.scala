@@ -83,7 +83,33 @@ class BloxorzSuite extends FunSuite {
         (Block(Pos(1, 0), Pos(2, 0)), Down)
       )
       assert(b.neighbors === neigh, "neighbors")
+      assert(b.neighbors !== legalNeigh, "ciccio formaggio")
       assert(b.legalNeighbors === legalNeigh, "legal neighbors")
+    }
+  }
+
+  test("Solver.neighborsWithHistory") {
+    new Level1 {
+
+      assert(Block(Pos(1,2), Pos(1,2)).isStanding, "is standing")
+      assert(!Block(Pos(1,2), Pos(2,2)).isStanding, "not standing")
+
+      assert(Block(Pos(0,0), Pos(0,1)).isLegal, "is legal Pos(0,0), Pos(0,1)")
+      assert(!Block(Pos(0,2), Pos(0,3)).isLegal, "not legal Pos(0,2), Pos(0,3)")
+
+      val b = Block(Pos(0,0), Pos(0,0))
+      val neighWithHist = List(
+        (Block(Pos(0, -2), Pos(0, -1)), List(Left)),
+        (Block(Pos(0, 1), Pos(0, 2)), List(Right)),
+        (Block(Pos(-2, 0), Pos(-1, 0)), List(Up)),
+        (Block(Pos(1, 0), Pos(2, 0)), List(Down))
+      )
+      val legalNeighWithHist = Set(
+        (Block(Pos(0, 1), Pos(0, 2)), List(Right)),
+        (Block(Pos(1, 0), Pos(2, 0)), List(Down))
+      )
+      assert(neighborsWithHistory(b, List()).toSet === legalNeighWithHist, "legal")
+      assert(neighborsWithHistory(b, List()).toSet != neighWithHist, "not legal")
     }
   }
 

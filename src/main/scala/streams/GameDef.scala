@@ -37,6 +37,8 @@ trait GameDef {
 
     /** The position obtained by changing the `y` coordinate by `d` */
     def dy(d: Int) = copy(y = y + d)
+
+    override def toString: String = "(" + x + ","+y+")"
   }
 
   /**
@@ -152,5 +154,7 @@ trait GameDef {
      * Returns `true` if the block is entirely inside the terrain.
      */
     def isLegal: Boolean = terrain(b1) && terrain(b2)
+
+    override def toString: String = "Box["+ b1 +", " + b2 +"]"
   }
 }
