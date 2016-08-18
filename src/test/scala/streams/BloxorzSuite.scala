@@ -69,7 +69,9 @@ class BloxorzSuite extends FunSuite {
       assert(!Block(Pos(1,2), Pos(2,2)).isStanding, "not standing")
 
       assert(Block(Pos(0,0), Pos(0,1)).isLegal, "is legal Pos(0,0), Pos(0,1)")
-      assert(!Block(Pos(0,2), Pos(0,3)).isLegal, "not legal Pos(0,2), Pos(0,3)")
+      //Box[(1,-1), (1,0)]
+      assert(!(Block(Pos(1,-1), Pos(1,0)).isLegal), "is not legal Pos(1,-1), Pos(1,0)")
+      assert(!(Block(Pos(0,2), Pos(0,3)).isLegal), "is not legal Pos(0,2), Pos(0,3)")
 
       val b = Block(Pos(0,0), Pos(0,0))
       val neigh = List(

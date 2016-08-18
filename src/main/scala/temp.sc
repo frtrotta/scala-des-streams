@@ -32,7 +32,7 @@ trait Level1 extends SolutionChecker {
 
 new Level1 {
 
-  println((from(Stream((startBlock, List())), Set()) take 5 toList ) mkString "\n")
+  println((from(Stream((startBlock, List())), Set()) take 100 toList ) mkString "\n")
 
 
 }
