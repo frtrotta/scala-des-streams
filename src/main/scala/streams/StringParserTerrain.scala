@@ -71,10 +71,8 @@ trait StringParserTerrain extends GameDef {
    * `Vector` class
    */
   def findChar(c: Char, levelVector: Vector[Vector[Char]]): Pos = {
-    val (x,y) = (for {
-      x <- 0 until levelVector.length
-      if (levelVector(x).indexOf(c) >= 0)
-    } yield (x, levelVector(x).indexOf(c))).head // TODO More elegant definition, with a single call to indexOf?
+    val x = levelVector.indexWhere(v => v.contains(c))
+    val y = levelVector(x).indexOf(c)
     new Pos(x, y)
   }
 
